@@ -80,9 +80,14 @@ void SoundTexture::play()
     try {
       dac.openStream( &parameters, NULL, format, (unsigned int)Stk::sampleRate(), &bufferFrames, &tick_callback, (void *)this );
     }
-    catch ( RtAudioError &error ) {
+    /*catch ( RtAudioError &error ) {
       error.printMessage();
       printf("Error opening the stream.  Now set to done.");
+      done = true;
+      return;
+    }*/
+    catch (std::exception &error){
+      std::cerr<< "Error opening the stream: " <<error.what() << std:endl;
       done = true;
       return;
     }
@@ -93,9 +98,12 @@ void SoundTexture::play()
     try {
       dac.startStream();
     }
-    catch ( RtAudioError &error ) {
+    /*catch ( RtAudioError &error ) {
       error.printMessage();
       printf("Error starting the stream.");
+    }*/
+    catch (std::exception &error){
+      std::cerr<< "Error starting the stream: " <<error.what() << std:endl;
     }
 }
 
@@ -115,8 +123,11 @@ void SoundTexture::close()
     try {
       dac.closeStream();
     }
-    catch ( RtAudioError &error ) {
+    /*catch ( RtAudioError &error ) {
       error.printMessage();
       printf("Error closing the stream.");
+    }*/
+    catch (std::exception &error){
+      std::cerr<< "Error closing the stream: " <<error.what() << std:endl;
     }
 }
